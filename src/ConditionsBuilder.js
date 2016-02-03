@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Conditional from './Conditional';
 
 class ConditionsBuilder extends Component {
 
@@ -8,9 +9,12 @@ class ConditionsBuilder extends Component {
   }
 
   render() {
+    const { rules } = this.props;
+    const type = Object.keys(rules)[0];
+
     return (
       <div className="conditions">
-        Conditions
+        <Conditional type={type} conditions={rules[type]} />
       </div>
     );
   }
