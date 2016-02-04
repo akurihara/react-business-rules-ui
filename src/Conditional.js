@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import Conditional from './Conditional';
 import Rule from './Rule';
 
 class Conditional extends Component {
 
   isConditionASubCondition(condition) {
-    return condition.all || condition.any;
+    const type = Object.keys(condition)[0];
+    return type === 'all' || type === 'any';
   }
 
   renderConditions() {
@@ -17,13 +17,13 @@ class Conditional extends Component {
     if ( this.isConditionSubCondition(condition) ) {
       return this.renderSubCondition(condition);
     } else {
-      reutrn this.renderRule(condition);
+      return this.renderRule(condition);
     }
   }
 
   renderRule(rule) {
     return (
-      <Rule props={...rule} />
+      <Rule {...rule} />
     );
   }
 
@@ -37,7 +37,12 @@ class Conditional extends Component {
   render() {
     return (
       <div className="conditional">
-        <div className="all-any-wrapper">All</div>
+        <div className="all-any-wrapper">
+          <select className="all-any">
+            <option value="all">All</option>
+            <option value="any">Any</option>
+          </select>
+        </div>
         <a href="#" className="add-rule">Add Condition</a>
         <a href="#" className="add-condition">Add Sub-Condition</a>
         {this.renderConditions()}
@@ -47,13 +52,13 @@ class Conditional extends Component {
 }
 
 Conditional.propTypes = {
-  conditions: PropTypes.array
-  type: PropTypes.onOf(['all', 'any']),
+  conditions: PropTypes.array,
+  type: PropTypes.oneOf(['all', 'any'])
 };
 
 Conditional.defaultProps = {
-  conditions: []
-  type: 'all',
+  conditions: [],
+  type: 'all'
 };
 
 export default Conditional;
