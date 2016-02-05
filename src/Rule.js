@@ -12,7 +12,13 @@ class Rule extends Component {
 }
 
 Rule.propTypes = {
-
+  name: PropTypes.string,
+  operator: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.array
+  ])
 };
 
 export default Rule;

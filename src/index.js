@@ -1,5 +1,4 @@
 import ActionsBuilder from './ActionsBuilder';
 import ConditionsBuilder from './ConditionsBuilder';
 
-export ActionsBuilder;
-export ConditionsBuilder;
+export { ActionsBuilder, ConditionsBuilder };

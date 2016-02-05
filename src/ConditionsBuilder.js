@@ -26,19 +26,19 @@ ConditionsBuilder.propTypes = {
       PropTypes.shape({
         name: PropTypes.string,
         label: PropTypes.string,
-        inputType: ProptTypes.string
+        inputType: PropTypes.string
       })
     )
-  ).isRequired,
+  ),
   rules: PropTypes.object,
   variables: PropTypes.arrayOf(
-    PropsTypes.shape({
+    PropTypes.shape({
       name: PropTypes.string,
       label: PropTypes.string,
       fieldType: PropTypes.string,
       options: PropTypes.array
     })
-  ).isRequired,
+  ),
 };
 
 ConditionsBuilder.defaultProps = {
