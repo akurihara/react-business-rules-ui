@@ -16,9 +16,8 @@ class Conditional extends Component {
   renderCondition(condition) {
     if ( this.isConditionSubCondition(condition) ) {
       return this.renderSubCondition(condition);
-    } else {
-      return this.renderRule(condition);
     }
+    return this.renderRule(condition);
   }
 
   renderRule(rule) {
