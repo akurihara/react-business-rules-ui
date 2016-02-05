@@ -44,7 +44,7 @@ class Conditional extends Component {
         </div>
         <a href="#" className="add-rule">Add Condition</a>
         <a href="#" className="add-condition">Add Sub-Condition</a>
-        {this.renderConditions()}
+        {this.renderConditions().bind(this)}
       </div>
     );
   }
