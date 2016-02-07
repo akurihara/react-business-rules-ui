@@ -3,9 +3,18 @@ import React, { Component, PropTypes } from 'react';
 class Rule extends Component {
 
   render() {
+    const { name, operator } = this.props;
+
     return (
       <div className="rule">
-        Rule
+        <select className="field" value={name}>
+          <option value={name}>{name}</option>
+        </select>
+        <select className="operator" value={operator}>
+          <option value={operator}>{operator}</option>
+        </select>
+        <input type="text" className="value numberInput" />
+        <a className="Remove" href="#">Remove</a>
       </div>
     );
   }

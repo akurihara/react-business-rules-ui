@@ -37,7 +37,7 @@ class Conditional extends Component {
     return (
       <div className="conditional">
         <div className="all-any-wrapper">
-          <select className="all-any">
+          <select className="all-any" value={this.props.type}>
             <option value="all">All</option>
             <option value="any">Any</option>
           </select>
