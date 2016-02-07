@@ -10,11 +10,11 @@ class Conditional extends Component {
 
   renderConditions() {
     const { conditions } = this.props;
-    return conditions.map(this.renderCondition);
+    return conditions.map(this.renderCondition.bind(this));
   }
 
   renderCondition(condition) {
-    if ( this.isConditionSubCondition(condition) ) {
+    if ( this.isConditionASubCondition(condition) ) {
       return this.renderSubCondition(condition);
     }
     return this.renderRule(condition);
@@ -41,10 +41,11 @@ class Conditional extends Component {
             <option value="all">All</option>
             <option value="any">Any</option>
           </select>
+          <h4>of the following conditions:</h4>
         </div>
         <a href="#" className="add-rule">Add Condition</a>
         <a href="#" className="add-condition">Add Sub-Condition</a>
-        {this.renderConditions().bind(this)}
+        {this.renderConditions()}
       </div>
     );
   }
