@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import Rule from './Rule';
+import { includes } from 'lodash';
 
 class Conditional extends Component {
 
   isConditionASubCondition(condition) {
     const type = Object.keys(condition)[0];
-    return type === 'all' || type === 'any';
+    return includes(['all', 'any'], type);
   }
 
   renderConditions() {
@@ -20,16 +21,16 @@ class Conditional extends Component {
     return this.renderRule(condition);
   }
 
-  renderRule(rule) {
+  renderRule(condition) {
     return (
-      <Rule {...rule} />
+      <Rule condition={condition} variables={this.props.variables} />
     );
   }
 
   renderSubCondition(subCondition) {
     const type = Object.keys(subCondition)[0];
     return (
-      <Conditional type={type} conditions={subCondition[type]} />
+      <Conditional type={type} conditions={subCondition[type]} variables={this.props.variables} />
     );
   }
 
@@ -52,13 +53,9 @@ class Conditional extends Component {
 }
 
 Conditional.propTypes = {
-  conditions: PropTypes.array,
-  type: PropTypes.oneOf(['all', 'any'])
-};
-
-Conditional.defaultProps = {
-  conditions: [],
-  type: 'all'
+  conditions: PropTypes.array.isRequired,
+  type: PropTypes.oneOf(['all', 'any']).isRequired,
+  variables: PropTypes.array.isRequired
 };
 
 export default Conditional;

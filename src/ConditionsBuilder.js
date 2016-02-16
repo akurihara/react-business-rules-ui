@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Conditional from './Conditional';
+import { assign } from 'lodash';
 
 class ConditionsBuilder extends Component {
 
@@ -8,13 +9,23 @@ class ConditionsBuilder extends Component {
     this.state = this.props.rules;
   }
 
+  denormalizeVariableOperators() {
+    const { operators, variables } = this.props;
+    return variables.map((variable) => {
+      const operator = operators[variable.field_type];
+      const newVariable = assign({}, variable, { operator });
+      return newVariable;
+    });
+  }
+
   render() {
     const { rules } = this.props;
     const type = Object.keys(rules)[0];
+    const variables = this.denormalizeVariableOperators();
 
     return (
       <div className="conditions">
-        <Conditional type={type} conditions={rules[type]} />
+        <Conditional type={type} conditions={rules[type]} variables={variables} />
       </div>
     );
   }
@@ -26,7 +37,7 @@ ConditionsBuilder.propTypes = {
       PropTypes.shape({
         name: PropTypes.string,
         label: PropTypes.string,
-        inputType: PropTypes.string
+        input_type: PropTypes.string
       })
     )
   ),
@@ -35,7 +46,7 @@ ConditionsBuilder.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       label: PropTypes.string,
-      fieldType: PropTypes.string,
+      field_type: PropTypes.string,
       options: PropTypes.array
     })
   ),
