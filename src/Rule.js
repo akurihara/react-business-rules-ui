@@ -1,13 +1,38 @@
 import React, { Component, PropTypes } from 'react';
-import { findIndex } from 'lodash';
+import { assign, findIndex } from 'lodash';
 
 class Rule extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleOperatorChange = this.handleOperatorChange.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
+    this.handleVariableChange = this.handleVariableChange.bind(this);
+  }
+
+  handleVariableChange(e) {
+    const { condition, index, onUpdate } = this.props;
+    const updatedCondition = assign({}, condition, { name: e.target.value });
+    onUpdate(updatedCondition, index);
+  }
+
+  handleOperatorChange(e) {
+    const { condition, index, onUpdate } = this.props;
+    const updatedCondition = assign({}, condition, { operator: e.target.value });
+    onUpdate(updatedCondition, index);
+  }
+
+  handleValueChange(e) {
+    const { condition, index, onUpdate } = this.props;
+    const updatedCondition = assign({}, condition, { value: e.target.value });
+    onUpdate(updatedCondition, index);
+  }
 
   renderVariableSelect() {
     const { condition: { name }, variables } = this.props;
 
     return (
-      <select className="field" value={name}>
+      <select className="field" value={name} onChange={this.handleVariableChange}>
         {variables.map(this.renderVariableOption)}
       </select>
     );
@@ -25,7 +50,7 @@ class Rule extends Component {
     const variable = variables[index];
 
     return (
-      <select className="operator" value={operator}>
+      <select className="operator" value={operator} onChange={this.handleOperatorChange}>
         {variable.operator.map(this.renderOperatorOption)}
       </select>
     );
@@ -42,7 +67,12 @@ class Rule extends Component {
       <div className="rule">
         {this.renderVariableSelect()}
         {this.renderOperatorSelect()}
-        <input type="text" className="value numberInput" />
+        <input
+          className="value numberInput"
+          onChange={this.handleValueChange}
+          type="text"
+          value={this.props.condition.value}
+        />
         <a className="remove" href="#">Remove</a>
       </div>
     );
@@ -59,6 +89,8 @@ Rule.propTypes = {
       PropTypes.array
     ])
   }),
+  index: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   variables: PropTypes.array
 };
 
