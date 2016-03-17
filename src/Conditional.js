@@ -6,6 +6,8 @@ class Conditional extends Component {
 
   constructor(props) {
     super(props);
+    this.handleAddCondition = this.handleAddCondition.bind(this);
+    this.handleAddSubCondition = this.handleAddSubCondition.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -21,6 +23,30 @@ class Conditional extends Component {
       updatedIndex === index ? updatedCondition : condition
     );
     onUpdate({ [type]: newConditions }, this.props.index);
+  }
+
+  handleAddCondition(e) {
+    e.preventDefault();
+    const { conditions, index, onUpdate, type, variables } = this.props;
+    const newConditions = [...conditions, {
+      name: variables[0].name,
+      operator: variables[0].operator[0].name
+    }];
+    onUpdate({ [type]: newConditions }, index);
+  }
+
+  handleAddSubCondition(e) {
+    e.preventDefault();
+    const { conditions, index, onUpdate, type, variables } = this.props;
+    const newConditions = [...conditions, {
+      all: [
+        {
+          name: variables[0].name,
+          operator: variables[0].operator
+        }
+      ]
+    }];
+    onUpdate({ [type]: newConditions }, index);
   }
 
   isConditionASubCondition(condition) {
@@ -78,8 +104,12 @@ class Conditional extends Component {
           </select>
           <h4>of the following conditions:</h4>
         </div>
-        <a href="#" className="add-rule">Add Condition</a>
-        <a href="#" className="add-condition">Add Sub-Condition</a>
+        <a href="#" className="add-rule" onClick={this.handleAddCondition}>
+          Add Condition
+        </a>
+        <a href="#" className="add-condition" onClick={this.handleAddSubCondition}>
+          Add Sub-Condition
+        </a>
         {this.renderConditions()}
       </div>
     );
