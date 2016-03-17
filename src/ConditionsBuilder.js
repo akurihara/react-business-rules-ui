@@ -6,7 +6,12 @@ class ConditionsBuilder extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.props.rules;
+    this.state = { rules: this.props.rules };
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  handleUpdate(rules) {
+    this.setState({ rules });
   }
 
   denormalizeVariableOperators() {
@@ -19,13 +24,19 @@ class ConditionsBuilder extends Component {
   }
 
   render() {
-    const { rules } = this.props;
+    const { rules } = this.state;
     const type = Object.keys(rules)[0];
     const variables = this.denormalizeVariableOperators();
 
     return (
       <div className="conditions">
-        <Conditional type={type} conditions={rules[type]} variables={variables} />
+        <Conditional
+          conditions={rules[type]}
+          index={0}
+          onUpdate={this.handleUpdate}
+          type={type}
+          variables={variables}
+        />
       </div>
     );
   }

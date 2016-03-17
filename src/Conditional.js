@@ -4,6 +4,25 @@ import { includes } from 'lodash';
 
 class Conditional extends Component {
 
+  constructor(props) {
+    super(props);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  handleSelectChange(e) {
+    const { conditions, index, onUpdate } = this.props;
+    onUpdate({ [e.target.value]: conditions }, index);
+  }
+
+  handleUpdate(updatedCondition, updatedIndex) {
+    const { conditions, onUpdate, type } = this.props;
+    const newConditions = conditions.map((condition, index) =>
+      updatedIndex === index ? updatedCondition : condition
+    );
+    onUpdate({ [type]: newConditions }, this.props.index);
+  }
+
   isConditionASubCondition(condition) {
     const type = Object.keys(condition)[0];
     return includes(['all', 'any'], type);
@@ -14,23 +33,34 @@ class Conditional extends Component {
     return conditions.map(this.renderCondition.bind(this));
   }
 
-  renderCondition(condition) {
+  renderCondition(condition, index) {
     if ( this.isConditionASubCondition(condition) ) {
-      return this.renderSubCondition(condition);
+      return this.renderSubCondition(condition, index);
     }
-    return this.renderRule(condition);
+    return this.renderRule(condition, index);
   }
 
-  renderRule(condition) {
+  renderRule(condition, index) {
     return (
-      <Rule condition={condition} variables={this.props.variables} />
+      <Rule
+        condition={condition}
+        index={index}
+        onUpdate={this.handleUpdate}
+        variables={this.props.variables}
+      />
     );
   }
 
-  renderSubCondition(subCondition) {
+  renderSubCondition(subCondition, index) {
     const type = Object.keys(subCondition)[0];
     return (
-      <Conditional type={type} conditions={subCondition[type]} variables={this.props.variables} />
+      <Conditional
+        index={index}
+        conditions={subCondition[type]}
+        onUpdate={this.handleUpdate}
+        type={type}
+        variables={this.props.variables}
+      />
     );
   }
 
@@ -38,7 +68,11 @@ class Conditional extends Component {
     return (
       <div className="conditional">
         <div className="all-any-wrapper">
-          <select className="all-any" defaultValue={this.props.type}>
+          <select
+            className="all-any"
+            value={this.props.type}
+            onChange={this.handleSelectChange}
+          >
             <option value="all">All</option>
             <option value="any">Any</option>
           </select>
@@ -54,6 +88,8 @@ class Conditional extends Component {
 
 Conditional.propTypes = {
   conditions: PropTypes.array.isRequired,
+  index: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['all', 'any']).isRequired,
   variables: PropTypes.array.isRequired
 };
