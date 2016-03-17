@@ -8,6 +8,7 @@ class Conditional extends Component {
     super(props);
     this.handleAddCondition = this.handleAddCondition.bind(this);
     this.handleAddSubCondition = this.handleAddSubCondition.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -49,6 +50,12 @@ class Conditional extends Component {
     onUpdate({ [type]: newConditions }, index);
   }
 
+  handleRemove(removedIndex) {
+    const { conditions, onUpdate, type } = this.props;
+    const newConditions = conditions.filter((condition, index) => index !== removedIndex);
+    onUpdate({ [type]: newConditions }, this.props.index);
+  }
+
   isConditionASubCondition(condition) {
     const type = Object.keys(condition)[0];
     return includes(['all', 'any'], type);
@@ -71,6 +78,7 @@ class Conditional extends Component {
       <Rule
         condition={condition}
         index={index}
+        onRemove={this.handleRemove}
         onUpdate={this.handleUpdate}
         variables={this.props.variables}
       />

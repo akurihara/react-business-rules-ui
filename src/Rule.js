@@ -6,6 +6,7 @@ class Rule extends Component {
   constructor(props) {
     super(props);
     this.handleOperatorChange = this.handleOperatorChange.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleVariableChange = this.handleVariableChange.bind(this);
   }
@@ -26,6 +27,11 @@ class Rule extends Component {
     const { condition, index, onUpdate } = this.props;
     const updatedCondition = assign({}, condition, { value: e.target.value });
     onUpdate(updatedCondition, index);
+  }
+
+  handleRemove() {
+    const { index, onRemove } = this.props;
+    onRemove(index);
   }
 
   renderVariableSelect() {
@@ -73,7 +79,7 @@ class Rule extends Component {
           type="text"
           value={this.props.condition.value}
         />
-        <a className="remove" href="#">Remove</a>
+        <a className="remove" href="#" onClick={this.handleRemove}>Remove</a>
       </div>
     );
   }
@@ -90,6 +96,7 @@ Rule.propTypes = {
     ])
   }),
   index: PropTypes.number.isRequired,
+  onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   variables: PropTypes.array
 };
