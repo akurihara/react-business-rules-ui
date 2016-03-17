@@ -7,6 +7,8 @@ describe('Conditional', () => {
   it('should render', () => {
     const props = {
       conditions: [],
+      index: 0,
+      onUpdate: () => undefined,
       type: 'all',
       variables: []
     };

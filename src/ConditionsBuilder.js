@@ -63,8 +63,4 @@ ConditionsBuilder.propTypes = {
   ),
 };
 
-ConditionsBuilder.defaultProps = {
-  rules: { all: [] }
-};
-
 export default ConditionsBuilder;
