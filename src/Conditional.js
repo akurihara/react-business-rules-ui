@@ -8,7 +8,8 @@ class Conditional extends Component {
     super(props);
     this.handleAddCondition = this.handleAddCondition.bind(this);
     this.handleAddSubCondition = this.handleAddSubCondition.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
+    this.handleRemoveChildCondition = this.handleRemoveChildCondition.bind(this);
+    this.handleRemoveClick = this.handleRemoveClick.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -43,17 +44,22 @@ class Conditional extends Component {
       all: [
         {
           name: variables[0].name,
-          operator: variables[0].operator
+          operator: variables[0].operator[0].name
         }
       ]
     }];
     onUpdate({ [type]: newConditions }, index);
   }
 
-  handleRemove(removedIndex) {
+  handleRemoveChildCondition(removedIndex) {
     const { conditions, onUpdate, type } = this.props;
     const newConditions = conditions.filter((condition, index) => index !== removedIndex);
     onUpdate({ [type]: newConditions }, this.props.index);
+  }
+
+  handleRemoveClick() {
+    const { index, onRemove } = this.props;
+    onRemove(index);
   }
 
   isConditionASubCondition(condition) {
@@ -78,7 +84,7 @@ class Conditional extends Component {
       <Rule
         condition={condition}
         index={index}
-        onRemove={this.handleRemove}
+        onRemove={this.handleRemoveChildCondition}
         onUpdate={this.handleUpdate}
         variables={this.props.variables}
       />
@@ -91,11 +97,23 @@ class Conditional extends Component {
       <Conditional
         index={index}
         conditions={subCondition[type]}
+        onRemove={this.handleRemoveChildCondition}
         onUpdate={this.handleUpdate}
         type={type}
         variables={this.props.variables}
       />
     );
+  }
+
+  renderRemove() {
+    const { canBeRemoved } = this.props;
+    if ( canBeRemoved ) {
+      return (
+        <a className="remove" href="#" onClick={this.handleRemoveClick}>
+          Remove This Sub-Condition
+        </a>
+      );
+    }
   }
 
   render() {
@@ -118,6 +136,7 @@ class Conditional extends Component {
         <a href="#" className="add-condition" onClick={this.handleAddSubCondition}>
           Add Sub-Condition
         </a>
+        {this.renderRemove()}
         {this.renderConditions()}
       </div>
     );
@@ -125,11 +144,17 @@ class Conditional extends Component {
 }
 
 Conditional.propTypes = {
+  canBeRemoved: PropTypes.bool,
   conditions: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
+  onRemove: PropTypes.func,
   onUpdate: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['all', 'any']).isRequired,
   variables: PropTypes.array.isRequired
+};
+
+Conditional.defaultProps = {
+  canBeRemoved: true
 };
 
 export default Conditional;

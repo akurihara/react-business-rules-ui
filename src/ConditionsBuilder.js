@@ -31,6 +31,7 @@ class ConditionsBuilder extends Component {
     return (
       <div className="conditions">
         <Conditional
+          canBeRemoved={false}
           conditions={rules[type]}
           index={0}
           onUpdate={this.handleUpdate}

@@ -75,6 +75,7 @@ class Rule extends Component {
         {this.renderOperatorSelect()}
         <input
           className="value numberInput"
+          defaultValue={0}
           onChange={this.handleValueChange}
           type="text"
           value={this.props.condition.value}
