@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Rule from './Rule';
+import Rule, { getDefaultValueForVariable } from './Rule';
 import { includes } from 'lodash';
 
 class Conditional extends Component {
@@ -32,7 +32,8 @@ class Conditional extends Component {
     const { conditions, index, onUpdate, type, variables } = this.props;
     const newConditions = [...conditions, {
       name: variables[0].name,
-      operator: variables[0].operator[0].name
+      operator: variables[0].operator[0].name,
+      value: getDefaultValueForVariable(variables[0])
     }];
     onUpdate({ [type]: newConditions }, index);
   }

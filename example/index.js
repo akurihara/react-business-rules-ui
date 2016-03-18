@@ -19,6 +19,35 @@ const operators = {
       label: 'Less Than',
       input_type: 'numeric'
     }
+  ],
+  select: [
+    {
+      name: 'contains',
+      label: 'Contains',
+      input_type: 'select'
+    },
+    {
+      name: 'does_not_contain',
+      label: 'Does Not Contain',
+      input_type: 'select'
+    }
+  ],
+  select_multiple: [
+    {
+      name: 'contains_all',
+      label: 'Contains All',
+      input_type: 'select_multiple'
+    },
+    {
+      name: 'is_contained_by',
+      label: 'Is Contained By',
+      input_type: 'select_multiple'
+    },
+    {
+      name: 'shares_at_least_one_element_with',
+      label: 'Shares At Least One Element With',
+      input_type: 'select_multiple'
+    }
   ]
 };
 
@@ -34,6 +63,18 @@ const variables = [
     label: 'Current Inventory',
     field_type: 'numeric',
     options: []
+  },
+  {
+    name: 'goes_well_with',
+    label: 'Goes Well With',
+    field_type: 'select',
+    options: ['Eggnog', 'Cookies', 'Beef Jerkey']
+  },
+  {
+    name: 'goes_great_with',
+    label: 'Goes Great With',
+    field_type: 'select_multiple',
+    options: ['Burgers', 'French Fries', 'Shakes']
   }
 ];
 
@@ -52,9 +93,9 @@ const rules = {
           value: 20,
         },
         {
-          name: 'current_inventory',
-          operator: 'less_than',
-          value: 30,
+          name: 'goes_well_with',
+          operator: 'contains',
+          value: 'Beef Jerkey',
         }
       ]
     }
