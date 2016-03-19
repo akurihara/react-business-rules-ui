@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Rule, { getDefaultValueForVariable } from './Rule';
+import Rule from './Rule';
 import { includes } from 'lodash';
 
 class Conditional extends Component {
@@ -12,6 +12,15 @@ class Conditional extends Component {
     this.handleRemoveClick = this.handleRemoveClick.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  getDefaultRule() {
+    const { variables } = this.props;
+    return {
+      name: variables[0].name,
+      operator: variables[0].operator[0].name,
+      value: Rule.getDefaultValueForVariable(variables[0])
+    };
   }
 
   handleSelectChange(e) {
@@ -29,26 +38,15 @@ class Conditional extends Component {
 
   handleAddChildRule(e) {
     e.preventDefault();
-    const { conditions, index, onUpdate, type, variables } = this.props;
-    const newConditions = [...conditions, {
-      name: variables[0].name,
-      operator: variables[0].operator[0].name,
-      value: getDefaultValueForVariable(variables[0])
-    }];
+    const { conditions, index, onUpdate, type } = this.props;
+    const newConditions = [...conditions, this.getDefaultRule()];
     onUpdate({ [type]: newConditions }, index);
   }
 
   handleAddChildConditional(e) {
     e.preventDefault();
-    const { conditions, index, onUpdate, type, variables } = this.props;
-    const newConditions = [...conditions, {
-      all: [
-        {
-          name: variables[0].name,
-          operator: variables[0].operator[0].name
-        }
-      ]
-    }];
+    const { conditions, index, onUpdate, type } = this.props;
+    const newConditions = [...conditions, { all: [this.getDefaultRule()] }];
     onUpdate({ [type]: newConditions }, index);
   }
 

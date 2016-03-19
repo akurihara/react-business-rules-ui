@@ -11,6 +11,21 @@ class Rule extends Component {
     this.handleVariableChange = this.handleVariableChange.bind(this);
   }
 
+  static getDefaultValueForVariable(variable) {
+    switch (variable.field_type) {
+      case 'text':
+        return '';
+      case 'numeric':
+        return 0;
+      case 'select':
+        return variable.options[0];
+      case 'select_multiple':
+        return [];
+      default:
+        return null;
+    }
+  }
+
   getVariableByName(name) {
     const { variables } = this.props;
     return variables.filter(variable => variable.name === name)[0];
@@ -35,21 +50,6 @@ class Rule extends Component {
     return values;
   }
 
-  getDefaultValueForVariable(variable) {
-    switch (variable.field_type) {
-      case 'text':
-        return '';
-      case 'numeric':
-        return 0;
-      case 'select':
-        return variable.options[0];
-      case 'select_multiple':
-        return [];
-      default:
-        return null;
-    }
-  }
-
   handleVariableChange(e) {
     const { condition, index, onUpdate } = this.props;
     const newVariable = this.getVariableByName(e.target.value);
@@ -57,7 +57,7 @@ class Rule extends Component {
     const updatedCondition = assign({}, condition, {
       name: newVariable.name,
       operator: newOperator.name,
-      value: this.getDefaultValueForVariable(newVariable)
+      value: Rule.getDefaultValueForVariable(newVariable)
     });
     onUpdate(updatedCondition, index);
   }
