@@ -6,12 +6,12 @@ class ConditionsBuilder extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { rules: this.props.rules };
+    this.state = { conditions: this.props.conditions };
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
-  handleUpdate(rules) {
-    this.setState({ rules });
+  handleUpdate(conditions) {
+    this.setState({ conditions });
   }
 
   denormalizeVariableOperators() {
@@ -24,15 +24,15 @@ class ConditionsBuilder extends Component {
   }
 
   render() {
-    const { rules } = this.state;
-    const type = Object.keys(rules)[0];
+    const { conditions } = this.state;
+    const type = Object.keys(conditions)[0];
     const variables = this.denormalizeVariableOperators();
 
     return (
       <div className="conditions">
         <Conditional
           canBeRemoved={false}
-          conditions={rules[type]}
+          conditions={conditions[type]}
           index={0}
           onUpdate={this.handleUpdate}
           type={type}
@@ -53,7 +53,7 @@ ConditionsBuilder.propTypes = {
       })
     )
   ),
-  rules: PropTypes.object,
+  conditions: PropTypes.object,
   variables: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

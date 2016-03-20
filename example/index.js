@@ -78,7 +78,7 @@ const variables = [
   }
 ];
 
-const rules = {
+const conditions = {
   all: [
     {
       name: 'expiration_days',
@@ -102,5 +102,5 @@ const rules = {
   ]
 };
 
-const props = { rules, operators, variables };
+const props = { conditions, operators, variables };
 render(<ConditionsBuilder {...props} />, document.getElementById('conditions'));
