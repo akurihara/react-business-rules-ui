@@ -137,6 +137,7 @@ class App extends Component {
     };
     this.handleConditionsUpdate = this.handleConditionsUpdate.bind(this);
     this.handleActionsUpdate = this.handleActionsUpdate.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleActionsUpdate(actions) {
@@ -145,6 +146,14 @@ class App extends Component {
 
   handleConditionsUpdate(conditions) {
     this.setState({ conditions });
+  }
+
+  handleSubmit() {
+    const { actions, conditions } = this.state;
+    console.log('CONDITIONS');
+    console.log(`${JSON.stringify(conditions)}`);
+    console.log('ACTIONS');
+    console.log(`${JSON.stringify(actions)}`);
   }
 
   render() {
@@ -160,7 +169,9 @@ class App extends Component {
         />
         <h3>Do these actions...</h3>
         <ActionsBuilder actions={this.state.actions} />
-        <button id="submit" type="button">Pretend Submit</button>
+        <button id="submit" type="button" onClick={this.handleSubmit}>
+          Pretend Submit
+        </button>
       </div>
     );
   }
