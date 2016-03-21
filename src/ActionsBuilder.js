@@ -4,7 +4,7 @@ class ActionsBuilder extends Component {
 
   render() {
     return (
-      <div className="actions">
+      <div id="actions">
         Actions
       </div>
     );
@@ -12,7 +12,19 @@ class ActionsBuilder extends Component {
 }
 
 ActionsBuilder.propTypes = {
-
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      label: PropTypes.string,
+      params: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          label: PropTypes.string,
+          fieldType: PropTypes.string
+        })
+      )
+    })
+  ),
 };
 
 export default ActionsBuilder;

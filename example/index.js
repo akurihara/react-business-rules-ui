@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { ConditionsBuilder } from '../src';
+import { ConditionsBuilder, ActionsBuilder } from '../src';
 
 const operators = {
   numeric: [
@@ -102,15 +102,48 @@ const initialConditions = {
   ]
 };
 
+const initialActions = [
+  {
+    name: 'put_on_sale',
+    label: 'Put On Sale',
+    params: [
+      {
+        name: 'sale_percentage',
+        label: 'Sale Percentage',
+        fieldType: 'numeric'
+      }
+    ]
+  },
+  {
+    name: 'order_more',
+    label: 'Order More',
+    params: [
+      {
+        name: 'number_to_order',
+        label: 'Number To Order',
+        fieldType: 'numeric'
+      }
+    ]
+  }
+];
+
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { conditions: initialConditions };
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.state = {
+      conditions: initialConditions,
+      actions: initialActions
+    };
+    this.handleConditionsUpdate = this.handleConditionsUpdate.bind(this);
+    this.handleActionsUpdate = this.handleActionsUpdate.bind(this);
   }
 
-  handleUpdate(conditions) {
+  handleActionsUpdate(actions) {
+    this.setState({ actions });
+  }
+
+  handleConditionsUpdate(conditions) {
     this.setState({ conditions });
   }
 
@@ -123,10 +156,10 @@ class App extends Component {
           conditions={this.state.conditions}
           operators={operators}
           variables={variables}
-          onUpdate={this.handleUpdate}
+          onUpdate={this.handleConditionsUpdate}
         />
         <h3>Do these actions...</h3>
-        <div id="actions"></div>
+        <ActionsBuilder actions={this.state.actions} />
         <button id="submit" type="button">Pretend Submit</button>
       </div>
     );
