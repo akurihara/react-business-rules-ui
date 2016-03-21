@@ -83,6 +83,7 @@ class Conditional extends Component {
       <Rule
         condition={condition}
         index={index}
+        key={index}
         onRemove={this.handleRemoveChildCondition}
         onUpdate={this.handleUpdate}
         variables={this.props.variables}
@@ -94,8 +95,9 @@ class Conditional extends Component {
     const type = Object.keys(subCondition)[0];
     return (
       <Conditional
-        index={index}
         conditions={subCondition[type]}
+        index={index}
+        key={index}
         onRemove={this.handleRemoveChildCondition}
         onUpdate={this.handleUpdate}
         type={type}

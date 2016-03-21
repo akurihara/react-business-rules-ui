@@ -6,12 +6,11 @@ class ConditionsBuilder extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { conditions: this.props.conditions };
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   handleUpdate(conditions) {
-    this.setState({ conditions });
+    this.props.onUpdate(conditions);
   }
 
   denormalizeVariableOperators() {
@@ -24,7 +23,7 @@ class ConditionsBuilder extends Component {
   }
 
   render() {
-    const { conditions } = this.state;
+    const { conditions } = this.props;
     const type = Object.keys(conditions)[0];
     const variables = this.denormalizeVariableOperators();
 
@@ -54,6 +53,7 @@ ConditionsBuilder.propTypes = {
     )
   ),
   conditions: PropTypes.object,
+  onUpdate: PropTypes.func,
   variables: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

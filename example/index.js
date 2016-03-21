@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { ConditionsBuilder } from '../src';
 
@@ -78,7 +78,7 @@ const variables = [
   }
 ];
 
-const conditions = {
+const initialConditions = {
   all: [
     {
       name: 'expiration_days',
@@ -102,5 +102,35 @@ const conditions = {
   ]
 };
 
-const props = { conditions, operators, variables };
-render(<ConditionsBuilder {...props} />, document.getElementById('conditions'));
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { conditions: initialConditions };
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  handleUpdate(conditions) {
+    this.setState({ conditions });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Conditions and Actions Demo</h1>
+        <h3>When these conditions are met...</h3>
+        <ConditionsBuilder
+          conditions={this.state.conditions}
+          operators={operators}
+          variables={variables}
+          onUpdate={this.handleUpdate}
+        />
+        <h3>Do these actions...</h3>
+        <div id="actions"></div>
+        <button id="submit" type="button">Pretend Submit</button>
+      </div>
+    );
+  }
+}
+
+render(<App />, document.getElementById('root'));
