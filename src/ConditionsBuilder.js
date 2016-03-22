@@ -28,7 +28,7 @@ class ConditionsBuilder extends Component {
     const variables = this.denormalizeVariableOperators();
 
     return (
-      <div className="conditions">
+      <div id="conditions">
         <Conditional
           canBeRemoved={false}
           conditions={conditions[type]}

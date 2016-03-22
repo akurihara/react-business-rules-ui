@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import Rule from './Rule';
 import { includes } from 'lodash';
@@ -118,8 +119,10 @@ class Conditional extends Component {
   }
 
   render() {
+    const classes = classNames('conditional', this.props.type);
+
     return (
-      <div className="conditional">
+      <div className={classes}>
         <div className="all-any-wrapper">
           <select
             className="all-any"
