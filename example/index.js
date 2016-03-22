@@ -102,17 +102,11 @@ const initialConditions = {
   ]
 };
 
-const initialActions = [
+const availableActions = [
   {
     name: 'put_on_sale',
     label: 'Put On Sale',
-    params: [
-      {
-        name: 'sale_percentage',
-        label: 'Sale Percentage',
-        fieldType: 'numeric'
-      }
-    ]
+    params: []
   },
   {
     name: 'order_more',
@@ -121,9 +115,23 @@ const initialActions = [
       {
         name: 'number_to_order',
         label: 'Number To Order',
-        fieldType: 'numeric'
+        fieldType: 'numeric',
+        options: []
       }
     ]
+  }
+];
+
+const initialActions = [
+  {
+    name: 'put_on_sale',
+    params: {}
+  },
+  {
+    name: 'order_more',
+    params: {
+      number_to_order: 5
+    }
   }
 ];
 
@@ -168,7 +176,11 @@ class App extends Component {
           onUpdate={this.handleConditionsUpdate}
         />
         <h3>Do these actions...</h3>
-        <ActionsBuilder actions={this.state.actions} />
+        <ActionsBuilder
+          actions={this.state.actions}
+          availableActions={availableActions}
+          onUpdate={this.handleActionsUpdate}
+        />
         <button id="submit" type="button" onClick={this.handleSubmit}>
           Pretend Submit
         </button>

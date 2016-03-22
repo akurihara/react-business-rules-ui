@@ -40,7 +40,7 @@
   width: 250px;
 }
 
-.rule select {
+.rule select, .rule input {
   margin-right: 10px;
 }
 
@@ -56,7 +56,7 @@
   display: inline;
 }
 
-.action select, .action input, .action textarea {
+.action select, .action input, .action label {
   margin-right: 10px;
 }
 
