@@ -17,6 +17,30 @@ const AvailableActionsFixtures = {
           options: []
         }
       ]
+    },
+    {
+      name: 'send_email',
+      label: 'Send Email',
+      params: [
+        {
+          name: 'email',
+          label: 'Email',
+          fieldType: 'text',
+          options: []
+        }
+      ]
+    },
+    {
+      name: 'play_music',
+      label: 'Play Music',
+      params: [
+        {
+          name: 'genre',
+          label: 'Genre',
+          fieldType: 'select',
+          options: ['Rock', 'Pop', 'Hip Hop']
+        }
+      ]
     }
   ]
 };

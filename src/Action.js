@@ -66,7 +66,9 @@ class Action extends Component {
 
   handleParameterChange(e) {
     const { action, index, onUpdate } = this.props;
-    const updatedParams = assign({}, action.params, { [e.target.name]: e.target.value });
+    const updatedParams = assign({}, action.params, {
+      [e.target.name]: e.target.value
+    });
     const updatedAction = assign({}, action, { params: updatedParams });
     onUpdate(updatedAction, index);
   }
@@ -177,7 +179,9 @@ class Action extends Component {
       <div className={classes} >
         {this.renderActionSelect()}
         {this.renderParameters()}
-        <a className="remove" href="#" onClick={this.handleRemove}>Remove Action</a>
+        <a className="remove" href="#" onClick={this.handleRemove}>
+          Remove Action
+        </a>
       </div>
     );
   }
