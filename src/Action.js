@@ -66,8 +66,10 @@ class Action extends Component {
 
   handleParameterChange(e) {
     const { action, index, onUpdate } = this.props;
+    const { target: { name, value } } = e;
+    const isNumeric = this.getParameterByName(name).fieldType === 'numeric';
     const updatedParams = assign({}, action.params, {
-      [e.target.name]: e.target.value
+      [name]: isNumeric ? Number(value) : value
     });
     const updatedAction = assign({}, action, { params: updatedParams });
     onUpdate(updatedAction, index);
@@ -147,7 +149,7 @@ class Action extends Component {
         className="numeric"
         name={name}
         onChange={this.handleParameterChange}
-        type="text"
+        type="number"
         value={value}
       />
     );

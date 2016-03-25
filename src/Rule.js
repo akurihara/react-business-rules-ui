@@ -37,8 +37,14 @@ class Rule extends Component {
   }
 
   getValueFromElement(element) {
-    const isSelectMultiple = this.getCurrentVariable().field_type === 'select_multiple';
-    return isSelectMultiple ? this.getValuesFromSelectMultiple(element) : element.value;
+    switch (this.getCurrentVariable().field_type) {
+      case 'select_multiple':
+        return this.getValuesFromSelectMultiple(element);
+      case 'numeric':
+        return Number(element.value);
+      default:
+        return element.value;
+    }
   }
 
   getValuesFromSelectMultiple(element) {
@@ -148,7 +154,7 @@ class Rule extends Component {
       <input
         className="value numberInput"
         onChange={this.handleValueChange}
-        type="text"
+        type="number"
         value={this.props.condition.value}
       />
     );
