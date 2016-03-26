@@ -76,11 +76,10 @@ describe('Action', () => {
 
   it('calls onUpdate when a new value is entered', () => {
     const input = findDOMNode(component).querySelector('div.field input');
-    const actionDefinition = component.getCurrentActionDefinition();
     const newValue = 2;
     const event = {
       target: {
-        name: actionDefinition.params[0].name,
+        name: actionDefinitions[1].params[0].name,
         value: newValue,
       }
     };
@@ -88,18 +87,17 @@ describe('Action', () => {
     Simulate.change(input, event);
 
     const expectedAction = {
-      name: actionDefinition.name,
-      params: { [actionDefinition.params[0].name]: newValue }
+      name: actionDefinitions[1].name,
+      params: { [actionDefinitions[1].params[0].name]: newValue }
     };
     expect(onUpdateSpy.calledWith(expectedAction, index)).toBe(true);
   });
 
   it('renders a label for a parameter', () => {
-    const actionDefinition = component.getCurrentActionDefinition();
     const actionNode = findDOMNode(component);
 
     const label = actionNode.querySelector('div.field label');
-    expect(label.textContent).toEqual(actionDefinition.params[0].name);
+    expect(label.textContent).toEqual(actionDefinitions[1].params[0].name);
   });
 
   describe('renders expected input type and value', () => {
@@ -112,12 +110,11 @@ describe('Action', () => {
           onRemove={onRemoveSpy}
           onUpdate={onUpdateSpy}
         />);
-      const actionDefinition = component.getCurrentActionDefinition();
       const actionNode = findDOMNode(component);
 
       const label = actionNode.querySelector('div.field label');
       expect(actionNode.className).toInclude('action');
-      expect(label.textContent).toEqual(actionDefinition.params[0].name);
+      expect(label.textContent).toEqual(actionDefinitions[1].params[0].name);
 
       const input = actionNode.querySelector('div.field input');
       const { className, type, value } = input;
@@ -158,7 +155,7 @@ describe('Action', () => {
       expect(className).toInclude('select');
       expect(value).toEqual(selectAction.params.genre);
 
-      const actionDefinition = component.getCurrentActionDefinition();
+      const actionDefinition = actionDefinitions[3];
       const options = select.querySelectorAll('option');
       for (let i = 0; i < actionDefinition.params[0].options.length; i++) {
         expect(options[i].value).toEqual(actionDefinition.params[0].options[i]);
