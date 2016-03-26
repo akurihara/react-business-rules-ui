@@ -8,15 +8,17 @@ import ActionsFixtures from './fixtures/actions';
 import AvailableActionsFixtures from './fixtures/available_actions';
 
 describe('Action', () => {
-  let action;
+  let component;
+  let onRemoveSpy;
+  let onUpdateSpy;
   const index = 1;
   const { numericAction, selectAction, textAction } = ActionsFixtures;
   const { availableActions } = AvailableActionsFixtures;
-  const onRemoveSpy = sinon.spy();
-  const onUpdateSpy = sinon.spy();
 
   beforeEach(() => {
-    action = renderIntoDocument(
+    onRemoveSpy = sinon.spy();
+    onUpdateSpy = sinon.spy();
+    component = renderIntoDocument(
       <Action
         action={numericAction}
         availableActions={availableActions}
@@ -27,30 +29,30 @@ describe('Action', () => {
   });
 
   it('renders an action element', () => {
-    const actionNode = findDOMNode(action);
+    const actionNode = findDOMNode(component);
     expect(actionNode).toExist();
     expect(actionNode.className).toInclude('action');
   });
 
   it('renders a remove link', () => {
-    const removeLink = findDOMNode(action).querySelector('a.remove');
+    const removeLink = findDOMNode(component).querySelector('a.remove');
     expect(removeLink).toExist();
   });
 
   it('calls onRemove when the remove link is clicked', () => {
-    const removeLink = findDOMNode(action).querySelector('a.remove');
+    const removeLink = findDOMNode(component).querySelector('a.remove');
     Simulate.click(removeLink);
     expect(onRemoveSpy.calledWith(index)).toBe(true);
   });
 
   it('renders a select input set to the current action', () => {
-    const select = findDOMNode(action).querySelector('select.action-select');
+    const select = findDOMNode(component).querySelector('select.action-select');
     expect(select).toExist();
     expect(select.value).toEqual(numericAction.name);
   });
 
   it('calls onUpdate when a new action is selected', () => {
-    const select = findDOMNode(action).querySelector('select.action-select');
+    const select = findDOMNode(component).querySelector('select.action-select');
     const newAction = availableActions[2];
 
     Simulate.change(select, { target: { value: newAction.name } });
@@ -63,7 +65,7 @@ describe('Action', () => {
   });
 
   it('renders a select input with an option for each available action', () => {
-    const select = findDOMNode(action).querySelector('select.action-select');
+    const select = findDOMNode(component).querySelector('select.action-select');
     expect(select).toExist();
 
     expect(select.options.length).toEqual(availableActions.length);
@@ -73,8 +75,8 @@ describe('Action', () => {
   });
 
   it('calls onUpdate when a new value is entered', () => {
-    const input = findDOMNode(action).querySelector('div.field input');
-    const currentAction = action.getCurrentAction();
+    const input = findDOMNode(component).querySelector('div.field input');
+    const currentAction = component.getCurrentAction();
     const newValue = 2;
     const event = {
       target: {
@@ -93,8 +95,8 @@ describe('Action', () => {
   });
 
   it('renders a label for a parameter', () => {
-    const currentAction = action.getCurrentAction();
-    const actionNode = findDOMNode(action);
+    const currentAction = component.getCurrentAction();
+    const actionNode = findDOMNode(component);
 
     const label = actionNode.querySelector('div.field label');
     expect(label.textContent).toEqual(currentAction.params[0].name);
@@ -102,7 +104,7 @@ describe('Action', () => {
 
   describe('renders expected input type and value', () => {
     it('for a numeric parameter', () => {
-      const component = renderIntoDocument(
+      component = renderIntoDocument(
         <Action
           action={numericAction}
           availableActions={availableActions}
@@ -125,7 +127,7 @@ describe('Action', () => {
     });
 
     it('for a text parameter', () => {
-      const component = renderIntoDocument(
+      component = renderIntoDocument(
         <Action
           action={textAction}
           availableActions={availableActions}
@@ -142,7 +144,7 @@ describe('Action', () => {
     });
 
     it('for a select parameter', () => {
-      const component = renderIntoDocument(
+      component = renderIntoDocument(
         <Action
           action={selectAction}
           availableActions={availableActions}
