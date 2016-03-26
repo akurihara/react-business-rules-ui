@@ -43,7 +43,7 @@ class Action extends Component {
     return this.getActionDefinitionByName(name);
   }
 
-  getParameterByName(name) {
+  getParameterDefinitionByName(name) {
     const action = this.getCurrentActionDefinition();
     return action.params.filter(param => param.name === name)[0];
   }
@@ -67,7 +67,8 @@ class Action extends Component {
   handleParameterChange(e) {
     const { action, index, onUpdate } = this.props;
     const { target: { name, value } } = e;
-    const isNumeric = this.getParameterByName(name).fieldType === 'numeric';
+    const parameter = this.getParameterDefinitionByName(name);
+    const isNumeric = parameter.fieldType === 'numeric';
     const updatedParams = assign({}, action.params, {
       [name]: isNumeric ? Number(value) : value
     });
@@ -117,7 +118,7 @@ class Action extends Component {
   }
 
   renderParameterField(name, value) {
-    const parameter = this.getParameterByName(name);
+    const parameter = this.getParameterDefinitionByName(name);
 
     switch (parameter.fieldType) {
       case 'text':
@@ -156,6 +157,8 @@ class Action extends Component {
   }
 
   renderParameterSelect(value, name) {
+    const parameter = this.getParameterDefinitionByName(name);
+
     return (
       <select
         className="select"
@@ -163,7 +166,7 @@ class Action extends Component {
         onChange={this.handleParameterChange}
         value={value}
       >
-        {this.getParameterByName(name).options.map(this.renderParameterOption)}
+        {parameter.options.map(this.renderParameterOption)}
       </select>
     );
   }
