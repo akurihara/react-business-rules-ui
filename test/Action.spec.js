@@ -76,11 +76,11 @@ describe('Action', () => {
 
   it('calls onUpdate when a new value is entered', () => {
     const input = findDOMNode(component).querySelector('div.field input');
-    const currentAction = component.getCurrentAction();
+    const actionDefinition = component.getCurrentActionDefinition();
     const newValue = 2;
     const event = {
       target: {
-        name: currentAction.params[0].name,
+        name: actionDefinition.params[0].name,
         value: newValue,
       }
     };
@@ -88,18 +88,18 @@ describe('Action', () => {
     Simulate.change(input, event);
 
     const expectedAction = {
-      name: currentAction.name,
-      params: { [currentAction.params[0].name]: newValue }
+      name: actionDefinition.name,
+      params: { [actionDefinition.params[0].name]: newValue }
     };
     expect(onUpdateSpy.calledWith(expectedAction, index)).toBe(true);
   });
 
   it('renders a label for a parameter', () => {
-    const currentAction = component.getCurrentAction();
+    const actionDefinition = component.getCurrentActionDefinition();
     const actionNode = findDOMNode(component);
 
     const label = actionNode.querySelector('div.field label');
-    expect(label.textContent).toEqual(currentAction.params[0].name);
+    expect(label.textContent).toEqual(actionDefinition.params[0].name);
   });
 
   describe('renders expected input type and value', () => {
@@ -112,12 +112,12 @@ describe('Action', () => {
           onRemove={onRemoveSpy}
           onUpdate={onUpdateSpy}
         />);
-      const currentAction = component.getCurrentAction();
+      const actionDefinition = component.getCurrentActionDefinition();
       const actionNode = findDOMNode(component);
 
       const label = actionNode.querySelector('div.field label');
       expect(actionNode.className).toInclude('action');
-      expect(label.textContent).toEqual(currentAction.params[0].name);
+      expect(label.textContent).toEqual(actionDefinition.params[0].name);
 
       const input = actionNode.querySelector('div.field input');
       const { className, type, value } = input;
@@ -158,10 +158,10 @@ describe('Action', () => {
       expect(className).toInclude('select');
       expect(value).toEqual(selectAction.params.genre);
 
-      const currentAction = component.getCurrentAction();
+      const actionDefinition = component.getCurrentActionDefinition();
       const options = select.querySelectorAll('option');
-      for (let i = 0; i < currentAction.params[0].options.length; i++) {
-        expect(options[i].value).toEqual(currentAction.params[0].options[i]);
+      for (let i = 0; i < actionDefinition.params[0].options.length; i++) {
+        expect(options[i].value).toEqual(actionDefinition.params[0].options[i]);
       }
     });
   });

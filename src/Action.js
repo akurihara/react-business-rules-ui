@@ -33,24 +33,24 @@ class Action extends Component {
     return params;
   }
 
-  getActionByName(name) {
+  getActionDefinitionByName(name) {
     const { actionDefinitions } = this.props;
     return actionDefinitions.filter(action => action.name === name)[0];
   }
 
-  getCurrentAction() {
+  getCurrentActionDefinition() {
     const { action: { name } } = this.props;
-    return this.getActionByName(name);
+    return this.getActionDefinitionByName(name);
   }
 
   getParameterByName(name) {
-    const action = this.getCurrentAction();
+    const action = this.getCurrentActionDefinition();
     return action.params.filter(param => param.name === name)[0];
   }
 
   handleActionChange(e) {
     const { index, onUpdate } = this.props;
-    const action = this.getActionByName(e.target.value);
+    const action = this.getActionDefinitionByName(e.target.value);
 
     const newAction = {
       name: action.name,
