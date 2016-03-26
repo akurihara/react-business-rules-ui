@@ -5,7 +5,7 @@ import { findDOMNode } from 'react-dom';
 import sinon from 'sinon';
 import Action from '../src/Action';
 import ActionsFixtures from './fixtures/actions';
-import AvailableActionsFixtures from './fixtures/available_actions';
+import ActionDefinitionsFixtures from './fixtures/action_definitions';
 
 describe('Action', () => {
   let component;
@@ -13,7 +13,7 @@ describe('Action', () => {
   let onUpdateSpy;
   const index = 1;
   const { numericAction, selectAction, textAction } = ActionsFixtures;
-  const { availableActions } = AvailableActionsFixtures;
+  const { actionDefinitions } = ActionDefinitionsFixtures;
 
   beforeEach(() => {
     onRemoveSpy = sinon.spy();
@@ -21,7 +21,7 @@ describe('Action', () => {
     component = renderIntoDocument(
       <Action
         action={numericAction}
-        availableActions={availableActions}
+        actionDefinitions={actionDefinitions}
         index={index}
         onRemove={onRemoveSpy}
         onUpdate={onUpdateSpy}
@@ -53,7 +53,7 @@ describe('Action', () => {
 
   it('calls onUpdate when a new action is selected', () => {
     const select = findDOMNode(component).querySelector('select.action-select');
-    const newAction = availableActions[2];
+    const newAction = actionDefinitions[2];
 
     Simulate.change(select, { target: { value: newAction.name } });
 
@@ -68,9 +68,9 @@ describe('Action', () => {
     const select = findDOMNode(component).querySelector('select.action-select');
     expect(select).toExist();
 
-    expect(select.options.length).toEqual(availableActions.length);
-    for (let i = 0; i < availableActions.length; i++) {
-      expect(select.options[i].value).toEqual(availableActions[i].name);
+    expect(select.options.length).toEqual(actionDefinitions.length);
+    for (let i = 0; i < actionDefinitions.length; i++) {
+      expect(select.options[i].value).toEqual(actionDefinitions[i].name);
     }
   });
 
@@ -107,7 +107,7 @@ describe('Action', () => {
       component = renderIntoDocument(
         <Action
           action={numericAction}
-          availableActions={availableActions}
+          actionDefinitions={actionDefinitions}
           index={index}
           onRemove={onRemoveSpy}
           onUpdate={onUpdateSpy}
@@ -130,7 +130,7 @@ describe('Action', () => {
       component = renderIntoDocument(
         <Action
           action={textAction}
-          availableActions={availableActions}
+          actionDefinitions={actionDefinitions}
           index={index}
           onRemove={onRemoveSpy}
           onUpdate={onUpdateSpy}
@@ -147,7 +147,7 @@ describe('Action', () => {
       component = renderIntoDocument(
         <Action
           action={selectAction}
-          availableActions={availableActions}
+          actionDefinitions={actionDefinitions}
           index={index}
           onRemove={onRemoveSpy}
           onUpdate={onUpdateSpy}

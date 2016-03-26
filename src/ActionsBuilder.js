@@ -12,10 +12,10 @@ class ActionsBuilder extends Component {
   }
 
   getDefaultAction() {
-    const { availableActions } = this.props;
+    const { actionDefinitions } = this.props;
     return {
-      name: availableActions[0].name,
-      params: Action.getDefaultParametersForAction(availableActions[0])
+      name: actionDefinitions[0].name,
+      params: Action.getDefaultParametersForAction(actionDefinitions[0])
     };
   }
 
@@ -53,7 +53,7 @@ class ActionsBuilder extends Component {
     return (
       <Action
         action={action}
-        availableActions={this.props.availableActions}
+        actionDefinitions={this.props.actionDefinitions}
         index={index}
         key={index}
         onRemove={this.handleRemoveAction}
@@ -85,7 +85,7 @@ ActionsBuilder.propTypes = {
       params: PropTypes.object
     })
   ),
-  availableActions: PropTypes.arrayOf(
+  actionDefinitions: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       label: PropTypes.string,

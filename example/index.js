@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { ConditionsBuilder, ActionsBuilder } from '../src';
+import ActionsFixtures from '../test/fixtures/actions';
+import ActionDefinitionsFixtures from '../test/fixtures/action_definitions';
 
 const operators = {
   numeric: [
@@ -102,38 +104,8 @@ const initialConditions = {
   ]
 };
 
-const availableActions = [
-  {
-    name: 'put_on_sale',
-    label: 'Put On Sale',
-    params: []
-  },
-  {
-    name: 'order_more',
-    label: 'Order More',
-    params: [
-      {
-        name: 'number_to_order',
-        label: 'Number To Order',
-        fieldType: 'numeric',
-        options: []
-      }
-    ]
-  }
-];
-
-const initialActions = [
-  {
-    name: 'put_on_sale',
-    params: {}
-  },
-  {
-    name: 'order_more',
-    params: {
-      number_to_order: 5
-    }
-  }
-];
+const { simpleAction, numericAction, textAction } = ActionsFixtures;
+const initialActions = [simpleAction, numericAction, textAction];
 
 class App extends Component {
 
@@ -178,7 +150,7 @@ class App extends Component {
         <h3>Do these actions...</h3>
         <ActionsBuilder
           actions={this.state.actions}
-          availableActions={availableActions}
+          actionDefinitions={ActionDefinitionsFixtures.actionDefinitions}
           onUpdate={this.handleActionsUpdate}
         />
         <button id="submit" type="button" onClick={this.handleSubmit}>

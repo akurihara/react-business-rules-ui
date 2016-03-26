@@ -1,6 +1,6 @@
-const AvailableActionsFixtures = {
+const ActionDefinitionsFixtures = {
 
-  availableActions: [
+  actionDefinitions: [
     {
       name: 'put_on_sale',
       label: 'Put On Sale',
@@ -45,4 +45,4 @@ const AvailableActionsFixtures = {
   ]
 };
 
-export default AvailableActionsFixtures;
+export default ActionDefinitionsFixtures;

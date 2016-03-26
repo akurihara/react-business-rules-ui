@@ -34,8 +34,8 @@ class Action extends Component {
   }
 
   getActionByName(name) {
-    const { availableActions } = this.props;
-    return availableActions.filter(action => action.name === name)[0];
+    const { actionDefinitions } = this.props;
+    return actionDefinitions.filter(action => action.name === name)[0];
   }
 
   getCurrentAction() {
@@ -76,7 +76,7 @@ class Action extends Component {
   }
 
   renderActionSelect() {
-    const { action: { name }, availableActions } = this.props;
+    const { action: { name }, actionDefinitions } = this.props;
 
     return (
       <select
@@ -85,7 +85,7 @@ class Action extends Component {
         value={name}
         onChange={this.handleActionChange}
       >
-        {availableActions.map(this.renderActionOption)}
+        {actionDefinitions.map(this.renderActionOption)}
       </select>
     );
   }
@@ -194,7 +194,7 @@ Action.propTypes = {
     name: PropTypes.string,
     params: PropTypes.object
   }),
-  availableActions: PropTypes.arrayOf(
+  actionDefinitions: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       label: PropTypes.string,
