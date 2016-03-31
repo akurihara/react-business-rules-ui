@@ -44,7 +44,7 @@ class ActionsBuilder extends Component {
     onUpdate(newActions);
   }
 
-  renderConditions() {
+  renderActions() {
     const { actions } = this.props;
     return actions.map(this.renderAction.bind(this));
   }
@@ -71,7 +71,7 @@ class ActionsBuilder extends Component {
               Add Action
             </a>
           </div>
-          {this.renderConditions()}
+          {this.renderActions()}
         </div>
       </div>
     );
