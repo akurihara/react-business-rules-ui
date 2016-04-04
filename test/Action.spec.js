@@ -48,18 +48,17 @@ describe('Action', () => {
   it('renders a select input set to the current action', () => {
     const select = findDOMNode(component).querySelector('select.action-select');
     expect(select).toExist();
-    expect(select.value).toEqual(numericAction.name);
+    expect(select.value).toEqual('order_more');
   });
 
   it('calls onUpdate when a new action is selected', () => {
     const select = findDOMNode(component).querySelector('select.action-select');
-    const newAction = actionDefinitions[2];
 
-    Simulate.change(select, { target: { value: newAction.name } });
+    Simulate.change(select, { target: { value: 'send_email' } });
 
     const expectedAction = {
-      name: newAction.name,
-      params: { [newAction.params[0].name]: '' }
+      name: 'send_email',
+      params: { email: '' }
     };
     expect(onUpdateSpy.calledWith(expectedAction, index)).toBe(true);
   });
@@ -79,7 +78,7 @@ describe('Action', () => {
     const newValue = 2;
     const event = {
       target: {
-        name: actionDefinitions[1].params[0].name,
+        name: 'number_to_order',
         value: newValue,
       }
     };
@@ -87,8 +86,8 @@ describe('Action', () => {
     Simulate.change(input, event);
 
     const expectedAction = {
-      name: actionDefinitions[1].name,
-      params: { [actionDefinitions[1].params[0].name]: newValue }
+      name: 'order_more',
+      params: { number_to_order: newValue }
     };
     expect(onUpdateSpy.calledWith(expectedAction, index)).toBe(true);
   });
@@ -97,7 +96,7 @@ describe('Action', () => {
     const actionNode = findDOMNode(component);
 
     const label = actionNode.querySelector('div.field label');
-    expect(label.textContent).toEqual(actionDefinitions[1].params[0].name);
+    expect(label.textContent).toEqual('number_to_order');
   });
 
   describe('renders expected input type and value', () => {
@@ -114,7 +113,7 @@ describe('Action', () => {
 
       const label = actionNode.querySelector('div.field label');
       expect(actionNode.className).toInclude('action');
-      expect(label.textContent).toEqual(actionDefinitions[1].params[0].name);
+      expect(label.textContent).toEqual('number_to_order');
 
       const input = actionNode.querySelector('div.field input');
       const { className, type, value } = input;
